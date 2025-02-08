@@ -1,6 +1,6 @@
 import pandas as pd
 import numpy as np
-from sklearn.preprocessing import StandardScaler, LabelEncoder
+from sklearn.preprocessing import StandardScaler, MinMaxScaler, LabelEncoder
 from ipaddress import ip_address, AddressValueError
 import re
 
@@ -47,13 +47,9 @@ def preprocess_dataset(file_path, output_path, chunksize=100000):
                     lambda x: sum(float(t) * f for t, f in zip(x.split(':'), [3600, 60, 1])) if pd.notna(x) else None
                 )
                 
-                # Ajustar el origen temporal al primer paquete capturado para evitar valores negativos
-                chunk['frame.time_seconds'] = chunk['frame.time_seconds'].astype(float)
-                chunk['frame.time_seconds'] -= chunk['frame.time_seconds'].min()
-                
-                # Calcular delta_time asegurando que no haya valores negativos
-                chunk['delta_time'] = chunk['frame.time_seconds'].diff().fillna(0)
-                chunk['delta_time'] = chunk['delta_time'].clip(lower=0)  # Forzar valores no negativos
+                # Normalizar frame.time_seconds y delta_time a rango [0,1] usando MinMaxScaler
+                scaler = MinMaxScaler()
+                chunk[['frame.time_seconds', 'delta_time']] = scaler.fit_transform(chunk[['frame.time_seconds', 'delta_time']])
                 
             chunk = chunk.drop(columns=['frame.time_extracted', 'frame.time'], errors='ignore')
         
@@ -85,6 +81,5 @@ def preprocess_dataset(file_path, output_path, chunksize=100000):
     
     return output_path
 
-
 # Uso del script
-preprocess_dataset('./Datasets/v0/NormalTraffic_Training_dataset.csv', './Datasets/v0/NormalTraffic_Training_dataset_preprocessed.csv')
+preprocess_dataset('DNN_Part0.csv', 'DNN_Part0_preprocessed.csv')

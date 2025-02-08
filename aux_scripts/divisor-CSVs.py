@@ -1,7 +1,7 @@
 import pandas as pd
 
 # Cargar el CSV grande
-input_file = "./Datasets/v0/NormalTraffic_Training_dataset_preprocessed.csv"
+input_file = "./Datasets/v0/NormalTraffic_Training_dataset.csv"
 chunksize = 100000  # Número de filas por archivo
 
 # Leer el CSV en partes y guardarlas
