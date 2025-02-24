@@ -22,9 +22,9 @@ Este proyecto implementa un Autoencoder Variacional (VAE) para la detección de 
 
 #### Clona el repositorio y accede a la carpeta del proyecto:
 
-git clone https://github.com/tu-usuario/tu-repositorio.git
+git clone https://github.com/jaimealruiz/Laocoonte.git
 
-cd tu-repositorio
+cd Laocoonte
 
 #### Crea y activa un entorno virtual:
 
@@ -52,7 +52,7 @@ Esto generará un archivo DNN_Tests_preprocessed.csv con los datos listos para e
 
 Entrena el modelo con:
 
-python vae_model.py
+python vae.py
 
 Este script guardará el encoder y decoder en formato .keras y calculará el umbral de detección (vae_threshold.npy).
 
