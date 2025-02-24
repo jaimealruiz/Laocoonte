@@ -6,7 +6,7 @@
 
 Este proyecto implementa un Autoencoder Variacional (VAE) para la detección de anomalías en redes IIoT (Industrial IoT). Utiliza tráfico de red preprocesado para entrenar un modelo que diferencia entre tráfico normal y anómalo. Diseñado para integrarse en firewall Open Source (ex. Suricata) para crear un **Firewall de Nueva Generación (NGFW) Inteligente (INGFW).** Se containerizará utilizando la tecnología **docker-compose/Kubernetes** para su despliegue en redes IIoT.
 
-⚠️ **ADVERTENCIA:** TRABAJO AÚN EN DESARROLLO.
+⚠️ **ADVERTENCIA:** TRABAJO AÚN EN DESARROLLO - WORK IN PROGRESS (WIP)
 
 📌 Características
 
