@@ -1,0 +1,1 @@
+Latencia promedio por muestra: 0.2054 ms

@@ -1,0 +1,29 @@
+# Entornos virtuales
+.venv/
+venv/
+
+# Modelos guardados
+/models/*.keras
+/models/*.pkl
+
+# Datos pesados
+datasets/
+
+# Archivos generados en ejecuciones
+*.pyc
+__pycache__/
+
+# Datos sensibles o pesados
+datasets/*.csv
+datasets/processed/*.npy
+
+# Archivos específicos de IDE
+.vscode/
+.idea/
+
+# Logs
+*.log
+
+# Archivos del sistema operativo
+.DS_Store
+Thumbs.db
