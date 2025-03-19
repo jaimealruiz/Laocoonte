@@ -7,7 +7,7 @@ import time
 import joblib
 
 # Cargar modelo entrenado
-autoencoder = tf.keras.models.load_model("./models/autoencoder_model.keras")
+autoencoder = tf.keras.models.load_model("./models/autoencoder_model_v2.keras")
 
 # Modelo del espacio latente (extraer capa intermedia)
 encoder = tf.keras.Model(inputs=autoencoder.input, outputs=autoencoder.layers[5].output)
@@ -36,7 +36,7 @@ ocsvm.fit(X_train_latent_flat)
 print("Modelo OCSVM entrenado.")
 
 # Guardar el modelo entrenado
-joblib.dump(ocsvm, "./models/ocsvm_model.pkl")
+joblib.dump(ocsvm, "./models/ocsvm_model_v1.pkl")
 print("Modelo OCSVM guardado en ./models/ocsvm_model.pkl")
 
 # Predicciones
