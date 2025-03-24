@@ -1,11 +1,23 @@
 import numpy as np
 import tensorflow as tf
+from tensorflow.keras.saving import register_keras_serializable
+from tensorflow.image import ssim
 from sklearn.manifold import TSNE
 from sklearn.decomposition import PCA
 import matplotlib.pyplot as plt
 
-# Cargar autoencoder entrenado
-autoencoder = tf.keras.models.load_model("./models/autoencoder_model_v4.keras")
+# Registra la función personalizada para poder cargar el modelo correctamente
+@register_keras_serializable()
+def ssim_loss(y_true, y_pred):
+    return 1 - tf.reduce_mean(ssim(y_true, y_pred, max_val=1.0))
+
+# Cargar autoencoder entrenado indicando la función personalizada
+autoencoder = tf.keras.models.load_model(
+    "./models/autoencoder_model_v4.keras",
+    custom_objects={"ssim_loss": ssim_loss}
+)
+
+# Encoder para obtener embeddings latentes (ajusta el índice si cambias la arquitectura)
 encoder = tf.keras.Model(inputs=autoencoder.input, outputs=autoencoder.layers[5].output)
 
 # Cargar datos
