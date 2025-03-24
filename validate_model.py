@@ -86,3 +86,8 @@ ocsvm.predict(X_test_latent_flat[:1000])
 end_time = time.perf_counter()
 latency = ((end_time - start_time) / 1000) * 1000
 print(f"Latencia promedio (OCSVM) por muestra: {latency:.4f} ms")
+
+
+# ========================= #
+#           JAR             #
+# ========================= #

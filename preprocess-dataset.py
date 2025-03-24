@@ -106,3 +106,8 @@ np.save("./datasets/processed/X_train.npy", X_train_scaled)
 np.save("./datasets/processed/X_val.npy", X_val_scaled)
 np.save("./datasets/processed/X_test.npy", X_test_scaled)
 np.save("./datasets/processed/y_test.npy", y_test_full.astype('int'))
+
+
+# ========================= #
+#           JAR             #
+# ========================= #

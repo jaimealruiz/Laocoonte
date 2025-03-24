@@ -6,30 +6,36 @@ from sklearn.manifold import TSNE
 from sklearn.decomposition import PCA
 import matplotlib.pyplot as plt
 
-# Registra la función personalizada para poder cargar el modelo correctamente
-@register_keras_serializable()
-def ssim_loss(y_true, y_pred):
-    return 1 - tf.reduce_mean(ssim(y_true, y_pred, max_val=1.0))
+# Registrar también la función 'hybrid_loss' o 'ssim_metric' si la usas como métrica
+@register_keras_serializable(package="Custom", name="hybrid_loss")
+def hybrid_loss(y_true, y_pred):
+    alpha = 0.8
+    mae = tf.reduce_mean(tf.abs(y_true - y_pred))
+    ssim_l = 1.0 - tf.reduce_mean(ssim(y_true, y_pred, max_val=1.0))
+    return alpha * mae + (1 - alpha) * ssim_l
 
-# Cargar autoencoder entrenado indicando la función personalizada
+@register_keras_serializable(package="Custom", name="ssim_metric")
+def ssim_metric(y_true, y_pred):
+    return 1.0 - tf.reduce_mean(ssim(y_true, y_pred, max_val=1.0))
+
+# Cargar con los custom_objects
 autoencoder = tf.keras.models.load_model(
-    "./models/autoencoder_model_v4.keras",
-    custom_objects={"ssim_loss": ssim_loss}
+    "./models/autoencoder_model_v5.keras",
+    custom_objects={
+        "hybrid_loss": hybrid_loss,
+        "ssim_metric": ssim_metric
+    }
 )
 
-# Encoder para obtener embeddings latentes (ajusta el índice si cambias la arquitectura)
 encoder = tf.keras.Model(inputs=autoencoder.input, outputs=autoencoder.layers[5].output)
 
-# Cargar datos
 X_test = np.load("./datasets/processed/X_test.npy")
 y_test = np.load("./datasets/processed/y_test.npy")
 
-# Obtener embeddings latentes
 print("Generando embeddings latentes...")
 X_test_latent = encoder.predict(X_test)
 X_test_latent_flat = X_test_latent.reshape(X_test_latent.shape[0], -1)
 
-# PCA para visualización rápida
 print("Aplicando PCA...")
 pca = PCA(n_components=2)
 X_pca = pca.fit_transform(X_test_latent_flat)
@@ -43,7 +49,6 @@ plt.ylabel("Componente principal 2")
 plt.legend()
 plt.show()
 
-# t-SNE con subset por eficiencia computacional
 print("Generando visualización t-SNE...")
 tsne = TSNE(n_components=2, random_state=42)
 subset_size = 5000
@@ -58,3 +63,8 @@ plt.scatter(X_tsne[y_subset == 1, 0], X_tsne[y_subset == 1, 1], label='Anomalía
 plt.title("Visualización t-SNE del espacio latente")
 plt.legend()
 plt.show()
+
+
+# ========================= #
+#           JAR             #
+# ========================= #

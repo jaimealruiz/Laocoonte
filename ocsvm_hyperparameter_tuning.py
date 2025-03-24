@@ -54,3 +54,8 @@ print(f"Mejores hiperparámetros: {best_params}")
 print(f"AUC ROC del mejor modelo: {best_auc:.4f}")
 print("\nReporte de clasificación:\n", best_report)
 print("\nMatriz de confusión:\n", best_cm)
+
+
+# ========================= #
+#           JAR             #
+# ========================= #

@@ -37,3 +37,8 @@ print(confusion_matrix(y_test, y_pred))
 
 roc_auc = roc_auc_score(y_test, y_pred)
 print(f"AUC ROC: {roc_auc:.4f}")
+
+
+# ========================= #
+#           JAR             #
+# ========================= #
